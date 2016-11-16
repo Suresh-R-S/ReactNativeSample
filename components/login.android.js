@@ -2,14 +2,23 @@ import React, { Component } from 'react';
 import {
   StyleSheet,
   Text,
-  View
+  View,
+  Button
 } from 'react-native';
 
 export default class Login extends Component{
+
+	loginButtonPressed(){
+		this.props.navigator.push({
+			id : 'Home'
+		});
+	}
+
 	render(){
 		return(
 			<View style = {styles.container}>
 			<Text>Login Screen</Text>
+			<Button onPress = {this.loginButtonPressed.bind(this)} title = 'Login'/>
 			</View>
 		);
 	}
