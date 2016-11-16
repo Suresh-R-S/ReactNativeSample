@@ -19,10 +19,20 @@ export default class Main extends Component {
 }
 
 class Hello extends Component{
+  constructor(){
+    super();
+    this.state = {showText : true};
+
+    setInterval(() => {
+    this.setState({showText : !this.state.showText});
+  },1000);
+  }
+
   render(){
+  let display = this.state.showText ? 'Hello '+ this.props.name + ' !!' : ' ';
     return(
       <Text style = {styles.welcome}>
-          Hello {this.props.name} !!
+          {display}
       </Text>
     );
   }
