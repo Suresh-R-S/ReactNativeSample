@@ -13,21 +13,41 @@ export default class Login extends Component{
 	constructor(){
 		super();
 		this.state = {
-			username : '',
-			password : ''
+			username : 'nayana.rv@experionglobal.com',
+			password : 'qwerty'
 		};
 	}
 
 	loginButtonPressed(){
-		if(this.state.username == 'sample' && this.state.password =='123'){
-			ToastAndroid.show('Login Successful!!',ToastAndroid.SHORT);
-			this.props.navigator.push({
-				id : 'Home'
-			});
-		}
-		else{
-			ToastAndroid.show('Invalid Credentials!!',ToastAndroid.SHORT);
-		}
+    fetch(' http://52.29.160.71:9000/guest/login',{
+      method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json',
+        'deviceheader' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1ODE0YzljYzEzMTU1ODdhOTMxN2Y2ZTgiLCJkZXZpY2VfaWQiOiIyMTc5NmFhNTk5ODVhMzVlIiwiZGV2aWNlX29zIjoiNC40LjQiLCJkZXZpY2VfbW9kZWwiOiJHVC1JOTMwMCIsImRhdGUiOjE0NzkxMDQ1MTgzNzMsImlhdCI6MTQ3OTEwNDUxOH0.kazNiuXe34bouGEzT5ZSakB06WywpbXWU69TfxgbXq8'
+      },
+      body: JSON.stringify({
+        "platform": "android",
+        "email": this.state.username,
+        "language": "en",
+        "password": this.state.password,
+        "type_of_access": "normal"
+      })
+    })
+    .then((response) => response.json())
+    .then((responseJson) => {
+      if(responseJson.code == 200 && responseJson.status == 1){
+        ToastAndroid.show(responseJson.message,ToastAndroid.SHORT);
+        this.props.navigator.push({
+          id : 'Home'
+        });
+      }
+      else{
+        ToastAndroid.show(responseJson.message,ToastAndroid.SHORT);
+      }
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 	}
 
 	render(){
@@ -37,7 +57,7 @@ export default class Login extends Component{
 			<TextInput style = {styles.inputField} value = {this.state.username} onChangeText = {(username) => this.setState({username})}></TextInput>
 			<TextInput style = {styles.inputField} secureTextEntry = {true} value = {this.state.password} onChangeText = {(password) => this.setState({password})}></TextInput>
 			<Button onPress = {this.loginButtonPressed.bind(this)} title = 'Login'/>
-			</View>
+      </View>
 		);
 	}
 } 
