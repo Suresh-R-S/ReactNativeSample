@@ -10,10 +10,20 @@ export default class Main extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.welcome}>
-         Hello World!!
-        </Text>
+        <Hello name = 'Rebin'></Hello>
+        <Hello name = 'Gokul'></Hello>
+        <Hello name = 'Anoop'></Hello>
       </View>
+    );
+  }
+}
+
+class Hello extends Component{
+  render(){
+    return(
+      <Text style = {styles.welcome}>
+          Hello {this.props.name} !!
+      </Text>
     );
   }
 }
