@@ -13,36 +13,32 @@ export default class Login extends Component{
 	constructor(){
 		super();
 		this.state = {
-			username : 'nayana.rv@experionglobal.com',
-			password : 'qwerty'
+			username : '',
+			password : ''
 		};
 	}
 
 	loginButtonPressed(){
-    fetch(' http://52.29.160.71:9000/guest/login',{
+    fetch('http://experiontts.cloudapp.net:3000/user/login',{
       method: 'POST',
       headers: {
-        'Content-Type' : 'application/json',
-        'deviceheader' : 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJfaWQiOiI1ODE0YzljYzEzMTU1ODdhOTMxN2Y2ZTgiLCJkZXZpY2VfaWQiOiIyMTc5NmFhNTk5ODVhMzVlIiwiZGV2aWNlX29zIjoiNC40LjQiLCJkZXZpY2VfbW9kZWwiOiJHVC1JOTMwMCIsImRhdGUiOjE0NzkxMDQ1MTgzNzMsImlhdCI6MTQ3OTEwNDUxOH0.kazNiuXe34bouGEzT5ZSakB06WywpbXWU69TfxgbXq8'
+        'Content-Type' : 'application/json'
       },
       body: JSON.stringify({
-        "platform": "android",
-        "email": this.state.username,
-        "language": "en",
-        "password": this.state.password,
-        "type_of_access": "normal"
+        "username": this.state.username,
+        "password": this.state.password
       })
     })
     .then((response) => response.json())
     .then((responseJson) => {
-      if(responseJson.code == 200 && responseJson.status == 1){
+      if(responseJson.code == 200 && responseJson.status == 1 && responseJson.data){
         ToastAndroid.show(responseJson.message,ToastAndroid.SHORT);
         this.props.navigator.push({
           id : 'Home'
         });
       }
       else{
-        ToastAndroid.show(responseJson.message,ToastAndroid.SHORT);
+        ToastAndroid.show('Invalid Credentials!!',ToastAndroid.SHORT);
       }
     })
     .catch((error) => {
